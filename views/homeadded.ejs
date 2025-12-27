@@ -1,0 +1,69 @@
+<%- include('partials/head') %>
+</head>
+<body class="bg-gray-950 min-h-screen">
+    <%- include('partials/nav') %>
+    
+    <div class="flex items-center justify-center px-4 py-20">
+        <div class="max-w-md w-full">
+            <!-- Success Card -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8 text-center transform animate-bounce-in">
+                <!-- Success Icon -->
+                <div class="mb-6">
+                    <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <h1 class="text-3xl font-bold text-white mb-3">Success!</h1>
+                <h2 class="text-xl font-semibold text-green-400 mb-4">Home Successfully Added</h2>
+                <p class="text-gray-400 mb-8">
+                Your home has been added to the listings and is now visible to potential guests.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <a 
+                    href="/" 
+                    class="block w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                    View All Homes
+                </a>
+                <a 
+                    href="/host/add-home" 
+                    class="block w-full bg-white text-gray-700 font-semibold py-3 px-6 rounded-lg border-2 border-gray-300 hover:border-rose-500 hover:text-rose-500 transition-all duration-300"
+                >
+                    Add Another Home
+                </a>
+            </div>
+        </div>
+
+        <!-- Celebration Confetti Effect -->
+        <div class="text-center mt-6 flex justify-center gap-2">
+            <span class="text-3xl animate-bounce">🎉</span>
+            <span class="text-3xl animate-bounce delay-100">✨</span>
+            <span class="text-3xl animate-bounce delay-200">🎊</span>
+        </div>
+    </div>
+
+    <style>
+        @keyframes bounce-in {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-bounce-in {
+            animation: bounce-in 0.6s ease-out;
+        }
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+    </style>
+</body>
+</html>

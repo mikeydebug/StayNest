@@ -1,27 +1,35 @@
 const express = require('express');
 const path = require('path');
-const Host = require('./routes/host');
+const {hostRouter} = require('./routes/host');
 const user = require('./routes/user');
 const rootDir = require('./utils/pathutil');
 const app = express();
 const port = 3000;
+const ErrorController = require('./controller/errors');
+
+
 
 app.use((req, res, next) => {
     console.log(req.method, req.url);
     next();
 });
 
-app.use(express.static(path.join(rootDir, 'public')));
+// Set EJS as templating engine
+app.set('view engine', 'ejs');
+// Set the views directory
+app.set('views', 'views');
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(rootDir, 'public')));
+// Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+// Middleware to parse JSON bodies
 app.use(user);
-app.use("/host", Host);
+app.use("/host", hostRouter);
 
 
 //adding 404 page 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
-});
+app.use(ErrorController.get404);
 
 
 
