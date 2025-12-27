@@ -1,6 +1,7 @@
 const express = require('express');
 const Host = require('./routes/host');
 const user = require('./routes/user');
+const rootDir = require('./utils/pathutil');
 const app = express();
 const port = 3000;
 
@@ -11,10 +12,13 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(user);
-app.use(Host);
+app.use("/host", Host);
 
 
 //adding 404 page 
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
+});
 
 
 
