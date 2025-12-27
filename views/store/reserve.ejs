@@ -1,0 +1,112 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-950 min-h-screen">
+    <%- include('../partials/nav') %>
+    
+    <div class="flex items-center justify-center px-4 py-20">
+        <div class="max-w-2xl w-full">
+            <!-- Success Card -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8 md:p-12 text-center transform animate-fade-in">
+                <!-- Success Icon -->
+                <div class="mb-6">
+                    <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-bounce-once">
+                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <h1 class="text-4xl font-bold text-white mb-3">Reservation Confirmed!</h1>
+                <h2 class="text-xl font-semibold text-green-400 mb-6">Your booking has been successfully reserved</h2>
+                
+                <!-- Booking Details -->
+                <div class="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-8 text-left">
+                    <h3 class="text-lg font-bold text-white mb-4 text-center">Booking Details</h3>
+                    <div class="space-y-3 text-gray-300">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Booking ID:</span>
+                            <span class="font-semibold">#<%= Math.floor(Math.random() * 100000) %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Property:</span>
+                            <span class="font-semibold"><%= home ? home.title : 'N/A' %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Check-in:</span>
+                            <span class="font-semibold"><%= checkin || 'N/A' %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Check-out:</span>
+                            <span class="font-semibold"><%= checkout || 'N/A' %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Guests:</span>
+                            <span class="font-semibold"><%= guests || 1 %></span>
+                        </div>
+                        <div class="flex justify-between pt-3 border-t border-gray-700">
+                            <span class="text-white font-semibold">Total Amount:</span>
+                            <span class="text-2xl font-bold text-purple-400">$<%= total || 0 %></span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    A confirmation email has been sent to your email address with all the details. 
+                    You can view and manage your booking from your bookings page.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <a 
+                        href="/store/bookings" 
+                        class="block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                    >
+                        View My Bookings
+                    </a>
+                    <a 
+                        href="/" 
+                        class="block w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-4 px-6 rounded-lg border-2 border-gray-700 hover:border-purple-500 transition-all"
+                    >
+                        Back to Home
+                    </a>
+                </div>
+
+                <!-- Celebration Icons -->
+                <div class="text-center mt-8 flex justify-center gap-3">
+                    <span class="text-4xl animate-bounce">🎉</span>
+                    <span class="text-4xl animate-bounce delay-100">✨</span>
+                    <span class="text-4xl animate-bounce delay-200">🏠</span>
+                    <span class="text-4xl animate-bounce delay-300">🎊</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce-once {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.6s ease-out;
+        }
+        .animate-bounce-once {
+            animation: bounce-once 1s ease-in-out 1;
+        }
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+    </style>
+</body>
+</html>

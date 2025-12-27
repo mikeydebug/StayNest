@@ -1,0 +1,162 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-950">
+    <%- include('../partials/nav') %>
+    
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 text-white py-24 overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">Find Your Perfect Stay</h1>
+            <p class="text-xl md:text-2xl text-purple-100 mb-8">Discover unique homes in amazing locations</p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-3xl mx-auto bg-white rounded-full shadow-2xl p-2 flex items-center gap-2">
+                <input 
+                    type="text" 
+                    placeholder="Where do you want to go?" 
+                    class="flex-1 px-6 py-3 text-gray-800 bg-transparent outline-none"
+                >
+                <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold px-8 py-3 rounded-full transition-all">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center hover:border-purple-500 transition-all">
+                <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Verified Homes</h3>
+                <p class="text-gray-400">All properties are verified for quality and safety</p>
+            </div>
+            
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center hover:border-purple-500 transition-all">
+                <div class="w-16 h-16 bg-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Best Prices</h3>
+                <p class="text-gray-400">Get the best deals on amazing properties</p>
+            </div>
+            
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center hover:border-purple-500 transition-all">
+                <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">24/7 Support</h3>
+                <p class="text-gray-400">Round-the-clock customer support for your needs</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="mb-12 text-center">
+            <h2 class="text-4xl font-bold text-white mb-4">Popular Destinations</h2>
+            <p class="text-gray-400 text-lg">Explore trending locations</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b" alt="New York" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">New York</h3>
+                        <p class="text-gray-300">125 Properties</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34" alt="Paris" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Paris</h3>
+                        <p class="text-gray-300">89 Properties</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad" alt="London" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">London</h3>
+                        <p class="text-gray-300">156 Properties</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d" alt="Tokyo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Tokyo</h3>
+                        <p class="text-gray-300">73 Properties</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-gradient-to-r from-purple-900 to-indigo-900 py-20 my-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-white mb-4">Ready to List Your Property?</h2>
+            <p class="text-xl text-purple-200 mb-8">Join thousands of hosts and start earning today</p>
+            <a href="/host/add-home" class="inline-block bg-white text-purple-900 font-bold px-10 py-4 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all shadow-xl">
+                Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">StayNest</h3>
+                    <p class="text-gray-400">Your perfect home away from home</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Safety</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Hosting</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/host/add-home" class="hover:text-white">List Your Home</a></li>
+                        <li><a href="#" class="hover:text-white">Host Resources</a></li>
+                        <li><a href="#" class="hover:text-white">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 StayNest. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
