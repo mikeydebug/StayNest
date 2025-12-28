@@ -55,9 +55,17 @@
                                     <span class="text-2xl font-bold text-purple-400">$<%= home.price %></span>
                                     <span class="text-gray-500 text-sm"> / night</span>
                                 </div>
-                                <button class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors">
+
+                                
+                                <div class="flex items-center gap-4">
+                                    <a href="/homes/<%= home.id %>" class="text-purple-400 hover:underline font-semibold">
+                                        View Details
+                                    </a>
+
+                                    <button class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors">
                                     Book
                                 </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -66,11 +74,4 @@
         <% } %>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 text-white py-8 mt-20">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-500">&copy; 2025 StayNest. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+    <%- include('../partials/footer') %>

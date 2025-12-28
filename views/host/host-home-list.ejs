@@ -1,7 +1,7 @@
 <%- include('../partials/head') %>
 </head>
 <body class="bg-gray-950">
-    <%- include('../partials/nav') %>
+    <%- include('../partials/host-nav') %>
     
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 text-white py-16">
@@ -60,6 +60,7 @@
                                     <span class="text-white font-semibold"><%= home.rating || 4.5 %></span>
                                 </div>
                             </div>
+                            <p class="text-xs text-indigo-400 font-mono mb-2">ID: <%= home.id %></p>
                             <p class="text-gray-400 text-sm mb-2"><%= home.location %></p>
                             <p class="text-gray-400 mb-4 line-clamp-2"><%= home.description %></p>
                             

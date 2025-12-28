@@ -13,13 +13,14 @@ const registeredHomes = [];
 
 
 module.exports = class Home {
-    constructor( title, description, price, location, imageUrl, rating) {
+    constructor( title, description, price, location, imageUrl, rating,id) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.location = location;
         this.imageUrl = imageUrl;
         this.rating = rating;
+        this.id = id;
     }
 
     save() {

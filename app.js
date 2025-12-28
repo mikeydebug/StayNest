@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const {hostRouter} = require('./routes/host');
-const user = require('./routes/user');
+const hostRouter = require('./routes/hostrouter');
+const StoreRouter = require('./routes/StoreRouter');
 const rootDir = require('./utils/pathutil');
 const app = express();
 const port = 3000;
@@ -24,7 +24,7 @@ app.use(express.static(path.join(rootDir, 'public')));
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON bodies
-app.use(user);
+app.use(StoreRouter);
 app.use("/host", hostRouter);
 
 

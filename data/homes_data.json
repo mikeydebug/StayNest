@@ -1,2 +1,20 @@
-[{"title":"Mayank soni  vila ","description":"djskajd","price":"3333","location":"Raichur ","imageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3xAi1-cdMlV5twEcDm68Htc8NQZ2k2XLn0A&s","rating":"4"},
- {"title":"viva vila ","description":"ndlsnfak","price":"3121","location":"bjkkkbkbj","imageUrl":"https://5.imimg.com/data5/SELLER/Default/2021/7/GD/KE/QS/133614180/vila-design-500x500.jpeg","rating":"3.3"}]
+[
+  {
+    "title": "Mayank soni vila",
+    "description": "Beautiful villa with modern amenities",
+    "price": "3333",
+    "location": "Raichur",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3xAi1-cdMlV5twEcDm68Htc8NQZ2k2XLn0A&s",
+    "rating": "4",
+    "id": "1735380000001"
+  },
+  {
+    "title": "vila 2",
+    "description": "Luxurious property in prime location",
+    "price": "323",
+    "location": "Raichur",
+    "imageUrl": "https://5.imimg.com/data5/SELLER/Default/2021/7/GD/KE/QS/133614180/vila-design-500x500.jpeg",
+    "rating": "4.4",
+    "id": "1735380000002"
+  }
+]
