@@ -1,3 +1,4 @@
+const Favorite = require("../models/favorite_model.js");
 const Home = require("../models/home_model.js");
 
 
@@ -21,37 +22,38 @@ exports.getbookings = (req, res, next) => {
 
 //get favorites
 exports.getfavorites = (req, res, next) => {
-    const favorites =[{
-    "title": "Luxury Penthouse Suite",
-    "description": "Modern penthouse with city skyline views, rooftop terrace, and premium furnishings",
-    "price": "8900",
-    "location": "Mumbai",
-    "imageUrl": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
-    "rating": "4.8",
-    "id": "1735380000005"
-  },
-  {
-    "title": "Countryside Farmhouse",
-    "description": "Charming farmhouse surrounded by lush gardens and orchards, perfect for peaceful getaway",
-    "price": "1950",
-    "location": "Pune",
-    "imageUrl": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-    "rating": "4.5",
-    "id": "1735380000006"
-  }]; 
+    
+    Favorite.getFavorites(favorites => {
+        Home.fetchAll(registeredHomes => {
+            const favoriteHomes = registeredHomes.filter(home => favorites.some(fav => fav.id === home.id));
+            res.render("store/favorite-list",{favorites: favoriteHomes, 
+                home: favoriteHomes,
+                title: 'Favorites - StayNest', 
+                activePage: 'favorites'});
+        });
+    });
 
     
 
-    res.render("store/favorite-list",{favorites: favorites, home : favorites,
-
-        title: 'Favorites - StayNest', activePage: 'favorites'});
+    
 }   
 
 exports.postAddfavorites = (req, res, next) => {
     const homeId = req.body.homeId;
     console.log("Home ID to add to favorites:", homeId);
-    // Here, you would typically add logic to save the favorite to a database or session
+    Home.fetchAll(registeredHomes => {
+        const home = registeredHomes.find(hm => hm.id === homeId);
+        if (home) {
+            Favorite.addtoFavorite(home);
+        }
+        res.redirect('/favorites');
+    });
+}
 
+exports.postDeleteFavorite = (req, res, next) => {
+    const homeId = req.params.homeId;
+    console.log("Home ID to remove from favorites:", homeId);
+    Favorite.deleteFromFavorites(homeId);
     res.redirect('/favorites');
 }
 
@@ -74,8 +76,13 @@ exports.getViewDetails = (req, res, next) => {
         if (!home) {
             return res.redirect('/homes');
         }
-        res.render("store/home-detail",{home: home, 
-            title: 'View Details - StayNest', 
-            activePage: 'view-details'});
+        // Check if home is in favorites
+        Favorite.getFavorites(favorites => {
+            const isFavorited = favorites.some(fav => fav.id === homeId);
+            res.render("store/home-detail",{home: home, 
+                isFavorited: isFavorited,
+                title: 'View Details - StayNest', 
+                activePage: 'view-details'});
+        });
     });    
 }

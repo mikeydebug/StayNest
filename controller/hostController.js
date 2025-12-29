@@ -1,4 +1,5 @@
 const Home = require("../models/home_model.js");
+const Favorite = require("../models/favorite_model.js");
 //import { registeredHomes } from "../model/home"; // Import the registeredHomes array
 //controller/home.js
 //get add home
@@ -109,6 +110,8 @@ exports.deleteHome = (req, res, next) => {
                 if (err) {
                     console.log('Error writing file', err);
                 }
+                // Also remove from favorites
+                Favorite.deleteFromFavorites(homeId);
                 res.json({ success: true });
             });
         } else {
