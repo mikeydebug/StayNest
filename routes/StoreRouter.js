@@ -13,7 +13,10 @@ const StoreController = require("../controller/StoreController");
 StoreRouter.get("/", StoreController.getIndex);
 StoreRouter.get("/homes", StoreController.getHomeDetails);
 StoreRouter.get("/favorites", StoreController.getfavorites);
+StoreRouter.post("/favorites", StoreController.postAddfavorites);
 StoreRouter.get("/bookings", StoreController.getbookings);
+//view home details
+StoreRouter.get("/homes/:id", StoreController.getViewDetails);
 
 
 module.exports = StoreRouter;
