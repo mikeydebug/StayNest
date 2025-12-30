@@ -22,6 +22,6 @@ hostRouter.get("/edit-home/:id", hostController.getEditHome);
 hostRouter.post("/edit-home/:id", hostController.postEditHome);
 
 //delete home
-hostRouter.post("/delete-home/:id", hostController.deleteHome);
+hostRouter.post("/delete-home/:id", hostController.postdeleteHome);
 
 module.exports = hostRouter;

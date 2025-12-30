@@ -6,13 +6,15 @@ const Home = require("../models/home_model.js");
 
 // get home details
 exports.getHomeDetails  = (req, res, next) => {
-    const registeredHomes = Home.fetchAll(registeredHomes => {
+    Home.fetchAll().then(registeredHomes => {
         res.render("store/home-list",{registeredHomes: registeredHomes, 
             title: 'HomeList - StayNest', 
             activePage: 'home'});
-    });    
+    }).catch(err => {
+        console.log('Error fetching homes:', err);
+    });
+}   
 
-}
 
 //get bookings
 exports.getbookings = (req, res, next) => {
@@ -22,67 +24,86 @@ exports.getbookings = (req, res, next) => {
 
 //get favorites
 exports.getfavorites = (req, res, next) => {
-    
-    Favorite.getFavorites(favorites => {
-        Home.fetchAll(registeredHomes => {
-            const favoriteHomes = registeredHomes.filter(home => favorites.some(fav => fav.id === home.id));
+    //you will get only id form favorites collection and you have to fetch home details from homes collection
+    Favorite.getFavorites().then(favoriteIds => {
+        favoriteId = favoriteIds.map(fav => fav.id);
+        Home.fetchAll().then(allHomes => {
+            const favoriteHomes = allHomes.filter(home => favoriteId.includes(home.id));
             res.render("store/favorite-list",{favorites: favoriteHomes, 
-                home: favoriteHomes,
-                title: 'Favorites - StayNest', 
+                title: 'My Favorites - StayNest', 
                 activePage: 'favorites'});
         });
-    });
+    }).catch(err => {
+        console.log('Error fetching favorites:', err);
+        res.render("store/favorite-list",{favoriteHomes: [], 
+            title: 'My Favorites - StayNest', 
+            activePage: 'favorites'});
+    }); 
+}
 
-    
 
-    
-}   
 
 exports.postAddfavorites = (req, res, next) => {
     const homeId = req.body.homeId;
-    console.log("Home ID to add to favorites:", homeId);
-    Home.fetchAll(registeredHomes => {
-        const home = registeredHomes.find(hm => hm.id === homeId);
-        if (home) {
-            Favorite.addtoFavorite(home);
+    Home.findById(homeId).then(home => {
+        if (!home) {
+            return res.redirect('/homes');
         }
+        return Favorite.addtoFavorite({id: homeId});
+    }).then(() => {
         res.redirect('/favorites');
+    }).catch(err => {
+        console.log('Error adding to favorites:', err);
+        res.redirect('/homes');
     });
 }
+
+  
 
 exports.postDeleteFavorite = (req, res, next) => {
     const homeId = req.params.homeId;
     console.log("Home ID to remove from favorites:", homeId);
-    Favorite.deleteFromFavorites(homeId);
-    res.redirect('/favorites');
+    Favorite.deleteFromFavorites(homeId).then(() => {
+        res.redirect('/favorites');
+    }).catch(err => {
+        console.log('Error deleting from favorites:', err);
+        res.redirect('/favorites');
+    });
 }
 
 //get index
 
 exports.getIndex = (req, res, next) => {
-    const registeredHomes = Home.fetchAll(registeredHomes => {
+    Home.fetchAll().then(registeredHomes => {
         res.render("store/index",{registeredHomes: registeredHomes, 
             title: 'StayNest', 
             activePage: 'index'});
-    });    
-
+    }).catch(err => {
+        console.log('Error fetching homes:', err);
+    });
 }
 
 //view home details
 exports.getViewDetails = (req, res, next) => {
     const homeId = req.params.id;
-    Home.fetchAll(registeredHomes => {
-        const home = registeredHomes.find(hm => hm.id == homeId);
+    
+    Promise.all([
+        Home.findById(homeId),
+        Favorite.getFavorites()
+    ]).then(([home, favorites]) => {
         if (!home) {
             return res.redirect('/homes');
         }
-        // Check if home is in favorites
-        Favorite.getFavorites(favorites => {
-            const isFavorited = favorites.some(fav => fav.id === homeId);
-            res.render("store/home-detail",{home: home, 
-                isFavorited: isFavorited,
-                title: 'View Details - StayNest', 
-                activePage: 'view-details'});
+        
+        const isFavorited = favorites.some(fav => fav.id === homeId);
+        res.render("store/home-detail", {
+            home: home,
+            isFavorited: isFavorited,
+            title: 'View Details - StayNest',
+            activePage: 'view-details'
         });
-    });    
+    }).catch(err => {
+        console.log('Error fetching home details:', err);
+        res.redirect('/homes');
+    });
 }

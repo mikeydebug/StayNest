@@ -1,15 +1,14 @@
 
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../utils/pathutil');
- const homeDataPath = path.join(rootDir, 'data', 'homes_data.json');
+
+const { getDb } = require('../utils/database');
 
 
 
 
 
 
-const registeredHomes = [];
+
+
 
 
 module.exports = class Home {
@@ -24,36 +23,31 @@ module.exports = class Home {
     }
 
     save() {
-        Home.fetchAll(registeredHomes => {
-        registeredHomes.push(this);
-    
+        const db = getDb();
 
-        fs.writeFile(homeDataPath, JSON.stringify(registeredHomes), (err) => {
-            if (err) {
-                console.log('Error writing file', err);
-            }
-
-        });
-    });
-
+        if (this.id){ // existing home
+        //return a promise
+        return db.collection('homes').updateOne({ id: this.id }, { $set: this });
+        }
+        else {// new home
+        //return a promise
+        return db.collection('homes').insertOne(this);
+        }
     }
-
     static fetchAll(callback) {
-
-        fs.readFile(homeDataPath, (err, data) => {
-            if (!err) {
-                callback(JSON.parse(data));
-            }
-            else {
-            callback([]);
-            }
-        });
+        const db = getDb();
+        return db.collection('homes').find().toArray();
 
     }
+
     static findById(id, callback) {
-        Home.fetchAll(registeredHomes => {
-            const home = registeredHomes.find(hm => hm.id === id);
-            callback(home);
-        });
+        const db = getDb();
+        return db.collection('homes').findOne({ id: id });
+
+    }
+
+    static deleteById(id) {
+        const db = getDb();
+        return db.collection('homes').deleteOne({ id: id });
     }
 }

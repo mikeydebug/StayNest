@@ -1,12 +1,5 @@
 
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../utils/pathutil');
-const favoriteDataPath = path.join(rootDir, 'data', 'favorites_data.json');
-
-
-
-
+const { getDb } = require("../utils/database");
 
 
 
@@ -18,18 +11,9 @@ module.exports = class Favorite {
     
 
 
-    static addtoFavorite(home) {
-        this.getFavorites((favorites) => {
-            if (!favorites.find(fav => fav.id === home.id)) {
-                favorites.push(home);
-                fs.writeFile(favoriteDataPath, JSON.stringify(favorites), (err) => {
-                    if (err) {
-                        console.log('Error writing file', err);
-                    }
-                });
-            }
-            
-        });
+    static addtoFavorite(homeid) {
+        const db = getDb();
+        return db.collection('favorites').insertOne(homeid);
 
     }
 
@@ -37,24 +21,14 @@ module.exports = class Favorite {
 
     static getFavorites(callback) {
 
-        fs.readFile(favoriteDataPath, (err, data) => {
-                    if (!err) {
-                        callback(JSON.parse(data));
-                    }
-                    else {
-                    callback([]);
-                    }
-                });
+        const db = getDb();
+        return db.collection('favorites').find().toArray();
     }
 
+
+
     static deleteFromFavorites(homeId) {
-        this.getFavorites((favorites) => {
-            const updatedFavorites = favorites.filter(fav => fav.id !== homeId);
-            fs.writeFile(favoriteDataPath, JSON.stringify(updatedFavorites), (err) => {
-                if (err) {
-                    console.log('Error writing file', err);
-                }
-            });
-        });
+        const db = getDb();
+        return db.collection('favorites').deleteOne({ id: homeId });
     }
 }

@@ -2,6 +2,8 @@ const Home = require("../models/home_model.js");
 const Favorite = require("../models/favorite_model.js");
 //import { registeredHomes } from "../model/home"; // Import the registeredHomes array
 //controller/home.js
+
+
 //get add home
 exports.getAddHome = (req, res,next) => {
     res.render("host/add-home",{title: 'Add Home - StayNest', activePage: 'add-home'});       
@@ -13,27 +15,26 @@ exports.postAddHome = (req, res, next) => {
     const { id, title, description, price, location, imageUrl, rating } = req.body;
     
     // Check if ID already exists
-    Home.fetchAll(existingHomes => {
-        const idExists = existingHomes.some(home => home.id === id);
-        
-        if (idExists) {
-            // ID already exists - send back error
-            return res.render("host/add-home", {
-                title: 'Add Home - StayNest', 
-                activePage: 'add-home',
-                error: `Property ID "${id}" already exists. Please use a different ID.`
-            });
+    Home.fetchAll().then(registeredHomes => {
+        const existingHome = registeredHomes.find(hm => hm.id === id);
+        if (existingHome) {
+            // ID already exists, handle the error (e.g., redirect back with a message)
+            console.log('Home ID already exists. Please choose a different ID.');
+            return res.redirect('/host/add-home');
         }
-        
         // Create new home with user-provided ID
         const newhome = new Home(title, description, price, location, imageUrl, rating, id);
-        newhome.save();
 
-        res.render("host/homeadded", {
-            title: 'Home Added - StayNest', 
-            activePage: ''
+        //handel promise returned by save method
+        return newhome.save().then(() => {
+            console.log('New home added with ID:', id);
+            res.redirect('/host/host-home-list');
         });
+    }).catch(err => {
+        console.log('Error adding home:', err);
+        res.redirect('/host/add-home');
     });
+
 }
 
 //no need to export registeredHomes from here becz we can access it directly in homeController
@@ -42,19 +43,19 @@ exports.postAddHome = (req, res, next) => {
 
 //host home details
 exports.gethosthomelist  = (req, res, next) => {
-    Home.fetchAll(hostHomes => {
+    Home.fetchAll().then(hostHomes => {
         res.render("host/host-home-list",{hostHomes: hostHomes, 
             title: 'My Listings - StayNest', 
             activePage: 'host-home-list'});
-    });    
-
+    }).catch(err => {
+        console.log('Error fetching homes:', err);
+    });
 }
 
 //get edit home
 exports.getEditHome = (req, res, next) => {
     const homeId = req.params.id;
-    Home.fetchAll(hostHomes => {
-        const home = hostHomes.find(h => h.id === homeId);
+    Home.findById(homeId).then(home => {
         if (!home) {
             return res.redirect('/host/host-home-list');
         }
@@ -64,6 +65,9 @@ exports.getEditHome = (req, res, next) => {
             title: 'Edit Home - StayNest',
             activePage: 'host-home-list'
         });
+    }).catch(err => {
+        console.log('Error fetching home:', err);
+        res.redirect('/host/host-home-list');
     });
 }
 
@@ -71,51 +75,31 @@ exports.getEditHome = (req, res, next) => {
 exports.postEditHome = (req, res, next) => {
     const homeId = req.params.id;
     const { title, description, price, location, imageUrl, rating } = req.body;
-    
-    Home.fetchAll(hostHomes => {
-        const homeIndex = hostHomes.findIndex(h => h.id === homeId);
-        if (homeIndex !== -1) {
-            hostHomes[homeIndex] = { id: homeId, title, description, price, location, imageUrl, rating };
-            const fs = require('fs');
-            const path = require('path');
-            const rootDir = require('../utils/pathutil');
-            const homeDataPath = path.join(rootDir, 'data', 'homes_data.json');
-            
-            fs.writeFile(homeDataPath, JSON.stringify(hostHomes, null, 2), (err) => {
-                if (err) {
-                    console.log('Error writing file', err);
-                }
-                res.redirect('/host/host-home-list');
-            });
-        } else {
-            res.redirect('/host/host-home-list');
+
+    Home.findById(homeId).then(home => {
+        if (!home) {
+            return res.redirect('/host/host-home-list');
         }
+        
+        // Create updated home object
+        const updatedHome = new Home(title, description, price, location, imageUrl, rating, homeId);
+        
+        return updatedHome.save().then(() => {
+            res.redirect('/host/host-home-list');
+        });
+    }).catch(err => {
+        console.log('Error editing home:', err);
+        res.redirect('/host/host-home-list');
     });
 }
 
 //delete home
-exports.deleteHome = (req, res, next) => {
+exports.postdeleteHome = (req, res, next) => {
     const homeId = req.params.id;
-    
-    Home.fetchAll(hostHomes => {
-        const homeIndex = hostHomes.findIndex(h => h.id === homeId);
-        if (homeIndex !== -1) {
-            hostHomes.splice(homeIndex, 1);
-            const fs = require('fs');
-            const path = require('path');
-            const rootDir = require('../utils/pathutil');
-            const homeDataPath = path.join(rootDir, 'data', 'homes_data.json');
-            
-            fs.writeFile(homeDataPath, JSON.stringify(hostHomes, null, 2), (err) => {
-                if (err) {
-                    console.log('Error writing file', err);
-                }
-                // Also remove from favorites
-                Favorite.deleteFromFavorites(homeId);
-                res.json({ success: true });
-            });
-        } else {
-            res.json({ success: false });
-        }
+    Home.deleteById(homeId).then(() => {
+        res.redirect('/host/host-home-list');
+    }).catch(err => {
+        console.log('Error deleting home:', err);
+        res.redirect('/host/host-home-list');
     });
 }

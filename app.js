@@ -7,6 +7,8 @@ const app = express();
 const port = 3000;
 const ErrorController = require('./controller/errors');
 
+const {mongoConnect} = require('./utils/database');
+
 
 
 app.use((req, res, next) => {
@@ -33,7 +35,9 @@ app.use(ErrorController.get404);
 
 
 
+mongoConnect(() => {
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
 });
