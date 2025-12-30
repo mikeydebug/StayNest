@@ -6,7 +6,7 @@ const Home = require("../models/home_model.js");
 
 // get home details
 exports.getHomeDetails  = (req, res, next) => {
-    Home.fetchAll().then(registeredHomes => {
+    Home.find().then(registeredHomes => {
         res.render("store/home-list",{registeredHomes: registeredHomes, 
             title: 'HomeList - StayNest', 
             activePage: 'home'});
@@ -25,17 +25,16 @@ exports.getbookings = (req, res, next) => {
 //get favorites
 exports.getfavorites = (req, res, next) => {
     //you will get only id form favorites collection and you have to fetch home details from homes collection
-    Favorite.getFavorites().then(favoriteIds => {
-        favoriteId = favoriteIds.map(fav => fav.id);
-        Home.fetchAll().then(allHomes => {
-            const favoriteHomes = allHomes.filter(home => favoriteId.includes(home.id));
-            res.render("store/favorite-list",{favorites: favoriteHomes, 
-                title: 'My Favorites - StayNest', 
-                activePage: 'favorites'});
-        });
+    Favorite.find().then(favoriteIds => {
+        const homeIdList = favoriteIds.map(fav => fav.homeId);
+        return Home.find({ id: { $in: homeIdList } });
+    }).then(favoriteHomes => {
+        res.render("store/favorite-list",{favorites: favoriteHomes, 
+            title: 'My Favorites - StayNest', 
+            activePage: 'favorites'});
     }).catch(err => {
         console.log('Error fetching favorites:', err);
-        res.render("store/favorite-list",{favoriteHomes: [], 
+        res.render("store/favorite-list",{favorites: [], 
             title: 'My Favorites - StayNest', 
             activePage: 'favorites'});
     }); 
@@ -45,13 +44,20 @@ exports.getfavorites = (req, res, next) => {
 
 exports.postAddfavorites = (req, res, next) => {
     const homeId = req.body.homeId;
-    Home.findById(homeId).then(home => {
+    Home.findOne({ id: homeId }).then(home => {
         if (!home) {
             return res.redirect('/homes');
         }
-        return Favorite.addtoFavorite({id: homeId});
-    }).then(() => {
-        res.redirect('/favorites');
+        // Check if already in favorites
+        return Favorite.findOne({ homeId: homeId }).then(existingFav => {
+            if (existingFav) {
+                return res.redirect('/favorites');
+            }
+            const newFavorite = new Favorite({ homeId: homeId });
+            return newFavorite.save().then(() => {
+                res.redirect('/favorites');
+            });
+        });
     }).catch(err => {
         console.log('Error adding to favorites:', err);
         res.redirect('/homes');
@@ -63,7 +69,7 @@ exports.postAddfavorites = (req, res, next) => {
 exports.postDeleteFavorite = (req, res, next) => {
     const homeId = req.params.homeId;
     console.log("Home ID to remove from favorites:", homeId);
-    Favorite.deleteFromFavorites(homeId).then(() => {
+    Favorite.deleteOne({ homeId: homeId }).then(() => {
         res.redirect('/favorites');
     }).catch(err => {
         console.log('Error deleting from favorites:', err);
@@ -74,7 +80,7 @@ exports.postDeleteFavorite = (req, res, next) => {
 //get index
 
 exports.getIndex = (req, res, next) => {
-    Home.fetchAll().then(registeredHomes => {
+    Home.find().then(registeredHomes => {
         res.render("store/index",{registeredHomes: registeredHomes, 
             title: 'StayNest', 
             activePage: 'index'});
@@ -88,14 +94,14 @@ exports.getViewDetails = (req, res, next) => {
     const homeId = req.params.id;
     
     Promise.all([
-        Home.findById(homeId),
-        Favorite.getFavorites()
+        Home.findOne({ id: homeId }),
+        Favorite.find()
     ]).then(([home, favorites]) => {
         if (!home) {
             return res.redirect('/homes');
         }
         
-        const isFavorited = favorites.some(fav => fav.id === homeId);
+        const isFavorited = favorites.some(fav => fav.homeId === homeId);
         res.render("store/home-detail", {
             home: home,
             isFavorited: isFavorited,

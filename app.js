@@ -7,7 +7,8 @@ const app = express();
 const port = 3000;
 const ErrorController = require('./controller/errors');
 
-const {mongoConnect} = require('./utils/database');
+
+const { default: mongoose } = require('mongoose');
 
 
 
@@ -35,9 +36,15 @@ app.use(ErrorController.get404);
 
 
 
-mongoConnect(() => {
 
+
+const dbUrl = 'mongodb+srv://MayankSoni:mayankpass@staynest.8fo9pex.mongodb.net/StayNest?appName=StayNest';
+mongoose.connect(dbUrl).then(() => {
+    console.log('Connected to MongoDB using Mongoose');
     app.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
+        console.log(`StayNest app listening at http://localhost:${port}`);
     });
+
+}).catch(err => {
+    console.log('Error connecting to MongoDB:', err);
 });

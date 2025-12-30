@@ -15,15 +15,14 @@ exports.postAddHome = (req, res, next) => {
     const { id, title, description, price, location, imageUrl, rating } = req.body;
     
     // Check if ID already exists
-    Home.fetchAll().then(registeredHomes => {
-        const existingHome = registeredHomes.find(hm => hm.id === id);
+    Home.findOne({ id: id }).then(existingHome => {
         if (existingHome) {
             // ID already exists, handle the error (e.g., redirect back with a message)
             console.log('Home ID already exists. Please choose a different ID.');
             return res.redirect('/host/add-home');
         }
         // Create new home with user-provided ID
-        const newhome = new Home(title, description, price, location, imageUrl, rating, id);
+        const newhome = new Home({ id, title, description, price, location, imageUrl, rating });
 
         //handel promise returned by save method
         return newhome.save().then(() => {
@@ -43,7 +42,7 @@ exports.postAddHome = (req, res, next) => {
 
 //host home details
 exports.gethosthomelist  = (req, res, next) => {
-    Home.fetchAll().then(hostHomes => {
+    Home.find().then(hostHomes => {
         res.render("host/host-home-list",{hostHomes: hostHomes, 
             title: 'My Listings - StayNest', 
             activePage: 'host-home-list'});
@@ -55,7 +54,7 @@ exports.gethosthomelist  = (req, res, next) => {
 //get edit home
 exports.getEditHome = (req, res, next) => {
     const homeId = req.params.id;
-    Home.findById(homeId).then(home => {
+    Home.findOne({ id: homeId }).then(home => {
         if (!home) {
             return res.redirect('/host/host-home-list');
         }
@@ -76,17 +75,15 @@ exports.postEditHome = (req, res, next) => {
     const homeId = req.params.id;
     const { title, description, price, location, imageUrl, rating } = req.body;
 
-    Home.findById(homeId).then(home => {
+    Home.findOneAndUpdate(
+        { id: homeId },
+        { title, description, price, location, imageUrl, rating },
+        { new: true }
+    ).then(home => {
         if (!home) {
             return res.redirect('/host/host-home-list');
         }
-        
-        // Create updated home object
-        const updatedHome = new Home(title, description, price, location, imageUrl, rating, homeId);
-        
-        return updatedHome.save().then(() => {
-            res.redirect('/host/host-home-list');
-        });
+        res.redirect('/host/host-home-list');
     }).catch(err => {
         console.log('Error editing home:', err);
         res.redirect('/host/host-home-list');
@@ -96,7 +93,10 @@ exports.postEditHome = (req, res, next) => {
 //delete home
 exports.postdeleteHome = (req, res, next) => {
     const homeId = req.params.id;
-    Home.deleteById(homeId).then(() => {
+    Home.deleteOne({ id: homeId }).then(() => {
+        // Also remove from favorites
+        return Favorite.deleteMany({ homeId: homeId });
+    }).then(() => {
         res.redirect('/host/host-home-list');
     }).catch(err => {
         console.log('Error deleting home:', err);
