@@ -6,7 +6,7 @@ const Favorite = require("../models/favorite_model.js");
 
 //get add home
 exports.getAddHome = (req, res,next) => {
-    res.render("host/add-home",{title: 'Add Home - StayNest', activePage: 'add-home'});       
+    res.render("host/add-home",{title: 'Add Home - StayNest', activePage: 'add-home', isLoggedIn: req.session.isLoggedIn});       
 }
 
 //post add home
@@ -45,7 +45,10 @@ exports.gethosthomelist  = (req, res, next) => {
     Home.find().then(hostHomes => {
         res.render("host/host-home-list",{hostHomes: hostHomes, 
             title: 'My Listings - StayNest', 
-            activePage: 'host-home-list'});
+            activePage: 'host-home-list',
+            isLoggedIn: req.session.isLoggedIn
+        });
+
     }).catch(err => {
         console.log('Error fetching homes:', err);
     });
@@ -62,7 +65,8 @@ exports.getEditHome = (req, res, next) => {
             home: home,
             homeId: homeId,
             title: 'Edit Home - StayNest',
-            activePage: 'host-home-list'
+            activePage: 'host-home-list',
+            isLoggedIn: req.session.isLoggedIn
         });
     }).catch(err => {
         console.log('Error fetching home:', err);

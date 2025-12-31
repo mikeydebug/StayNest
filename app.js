@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const hostRouter = require('./routes/hostrouter');
 const StoreRouter = require('./routes/StoreRouter');
 const rootDir = require('./utils/pathutil');
@@ -7,9 +8,13 @@ const app = express();
 const port = 3000;
 const ErrorController = require('./controller/errors');
 
-
+const session = require('express-session');
 const { default: mongoose } = require('mongoose');
+const authRouter = require('./routes/authrouter');
+const mongodbSession = require('connect-mongodb-session')(session);
 
+
+const dbUrl = 'mongodb+srv://MayankSoni:mayankpass@staynest.8fo9pex.mongodb.net/StayNest?appName=StayNest';
 
 
 app.use((req, res, next) => {
@@ -22,12 +27,43 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', 'views');
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(rootDir, 'public')));
+
+const store = new mongodbSession({
+    uri: dbUrl,
+    collection: 'sessions'
+});
+
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
-// Middleware to parse JSON bodies
+// Middleware for session management
+app.use(session({
+    secret: 'mysec',
+    resave: false,
+    saveUninitialized: true
+    ,store: store
+}));
+
+
+
+
+
+
+
+
+
+// Routes
+app.use(authRouter);
 app.use(StoreRouter);
+
+// Authentication middleware for host routes
+app.use('/host', (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect('/login');
+    }
+    next();
+});
+
+// Host routes
 app.use("/host", hostRouter);
 
 
@@ -38,7 +74,7 @@ app.use(ErrorController.get404);
 
 
 
-const dbUrl = 'mongodb+srv://MayankSoni:mayankpass@staynest.8fo9pex.mongodb.net/StayNest?appName=StayNest';
+
 mongoose.connect(dbUrl).then(() => {
     console.log('Connected to MongoDB using Mongoose');
     app.listen(port, () => {

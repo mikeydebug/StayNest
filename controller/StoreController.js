@@ -9,6 +9,7 @@ exports.getHomeDetails  = (req, res, next) => {
     Home.find().then(registeredHomes => {
         res.render("store/home-list",{registeredHomes: registeredHomes, 
             title: 'HomeList - StayNest', 
+            isLoggedIn: req.session.isLoggedIn,
             activePage: 'home'});
     }).catch(err => {
         console.log('Error fetching homes:', err);
@@ -18,7 +19,7 @@ exports.getHomeDetails  = (req, res, next) => {
 
 //get bookings
 exports.getbookings = (req, res, next) => {
-    res.render("store/booking-list",{bookings: [], title: 'Bookings - StayNest', activePage: 'bookings'});
+    res.render("store/booking-list",{bookings: [], title: 'Bookings - StayNest', activePage: 'bookings', isLoggedIn: req.session.isLoggedIn});
     
 }
 
@@ -31,11 +32,13 @@ exports.getfavorites = (req, res, next) => {
     }).then(favoriteHomes => {
         res.render("store/favorite-list",{favorites: favoriteHomes, 
             title: 'My Favorites - StayNest', 
+            isLoggedIn: req.session.isLoggedIn,
             activePage: 'favorites'});
     }).catch(err => {
         console.log('Error fetching favorites:', err);
         res.render("store/favorite-list",{favorites: [], 
             title: 'My Favorites - StayNest', 
+            isLoggedIn: req.session.isLoggedIn,
             activePage: 'favorites'});
     }); 
 }
@@ -80,9 +83,12 @@ exports.postDeleteFavorite = (req, res, next) => {
 //get index
 
 exports.getIndex = (req, res, next) => {
+    console.log("isLoggedIn value in getIndex:", req.session.isLoggedIn);
     Home.find().then(registeredHomes => {
+
         res.render("store/index",{registeredHomes: registeredHomes, 
             title: 'StayNest', 
+            isLoggedIn: req.session.isLoggedIn,
             activePage: 'index'});
     }).catch(err => {
         console.log('Error fetching homes:', err);
@@ -105,6 +111,7 @@ exports.getViewDetails = (req, res, next) => {
         res.render("store/home-detail", {
             home: home,
             isFavorited: isFavorited,
+            isLoggedIn: req.session.isLoggedIn,
             title: 'View Details - StayNest',
             activePage: 'view-details'
         });
