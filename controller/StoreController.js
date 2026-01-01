@@ -1,5 +1,6 @@
-const Favorite = require("../models/favorite_model.js");
+
 const Home = require("../models/home_model.js");
+const User = require("../models/user_auth.js");
 
 
 
@@ -26,64 +27,60 @@ exports.getbookings = (req, res, next) => {
 }
 
 //get favorites
-exports.getfavorites = (req, res, next) => {
-    //you will get only id form favorites collection and you have to fetch home details from homes collection
-    Favorite.find().then(favoriteIds => {
-        const homeIdList = favoriteIds.map(fav => fav.homeId);
-        return Home.find({ id: { $in: homeIdList } });
-    }).then(favoriteHomes => {
-        res.render("store/favorite-list",{favorites: favoriteHomes, 
-            title: 'My Favorites - StayNest', 
-            isLoggedIn: req.session.isLoggedIn,
-            activePage: 'favorites',
-            user: req.session.user
-        });
-    }).catch(err => {
-        console.log('Error fetching favorites:', err);
-        res.render("store/favorite-list",{favorites: [], 
-            title: 'My Favorites - StayNest', 
-            isLoggedIn: req.session.isLoggedIn,
-            activePage: 'favorites',
-            user: req.session.user
-        });
-    }); 
+exports.getfavorites = async (req, res, next) => {
+
+    const userid = req.session.user._id;
+    const user = await User.findById(userid).populate('favourites');
+    res.render("store/favorite-list",{favorites: user.favourites, title: 'Favorites - StayNest', activePage: 'favorites', isLoggedIn: req.session.isLoggedIn,  user: req.session.user});
+
 }
 
 
 
-exports.postAddfavorites = (req, res, next) => {
+exports.postAddfavorites = async (req, res, next) => {
     const homeId = req.body.homeId;
-    Home.findOne({ id: homeId }).then(home => {
+    const userid = req.session.user._id;
+
+    try {
+        // Find the home by custom id field to get MongoDB _id
+        const home = await Home.findOne({ id: homeId });
         if (!home) {
-            return res.redirect('/homes');
+            return res.redirect('/favorites');
         }
-        // Check if already in favorites
-        return Favorite.findOne({ homeId: homeId }).then(existingFav => {
-            if (existingFav) {
-                return res.redirect('/favorites');
-            }
-            const newFavorite = new Favorite({ homeId: homeId });
-            return newFavorite.save().then(() => {
-                res.redirect('/favorites');
-            });
-        });
-    }).catch(err => {
+
+        const user = await User.findById(userid);
+        if (!user.favourites.includes(home._id)) {
+            user.favourites.push(home._id);
+            await user.save();
+        }
+        res.redirect('/favorites');
+    } catch (err) {
         console.log('Error adding to favorites:', err);
-        res.redirect('/homes');
-    });
+        res.redirect('/favorites');
+    }
 }
 
   
 
-exports.postDeleteFavorite = (req, res, next) => {
+exports.postDeleteFavorite = async (req, res, next) => {
     const homeId = req.params.homeId;
-    console.log("Home ID to remove from favorites:", homeId);
-    Favorite.deleteOne({ homeId: homeId }).then(() => {
+    const userid = req.session.user._id;
+    
+    try {
+        // Find the home by custom id field to get MongoDB _id
+        const home = await Home.findOne({ id: homeId });
+        if (!home) {
+            return res.redirect('/favorites');
+        }
+
+        const user = await User.findById(userid);
+        user.favourites = user.favourites.filter(favId => favId.toString() !== home._id.toString());
+        await user.save();
         res.redirect('/favorites');
-    }).catch(err => {
+    } catch (err) {
         console.log('Error deleting from favorites:', err);
         res.redirect('/favorites');
-    });
+    }
 }
 
 //get index
@@ -104,28 +101,33 @@ exports.getIndex = (req, res, next) => {
 }
 
 //view home details
-exports.getViewDetails = (req, res, next) => {
+exports.getViewDetails = async (req, res, next) => {
     const homeId = req.params.id;
-    
-    Promise.all([
-        Home.findOne({ id: homeId }),
-        Favorite.find()
-    ]).then(([home, favorites]) => {
+    try {
+        const home = await Home.findOne({ id: homeId });
         if (!home) {
-            return res.redirect('/homes');
+            return res.redirect('/');
         }
-        
-        const isFavorited = favorites.some(fav => fav.homeId === homeId);
+
+        let isFavorited = false;
+        if (req.session.isLoggedIn && req.session.user) {
+            const user = await User.findById(req.session.user._id);
+            if (user && user.favourites) {
+                isFavorited = user.favourites.some(favId => favId.toString() === home._id.toString());
+            }
+        }
+
         res.render("store/home-detail", {
             home: home,
-            isFavorited: isFavorited,
+            homeId: homeId,
+            title: 'Home Details - StayNest',
+            activePage: 'index',
             isLoggedIn: req.session.isLoggedIn,
-            title: 'View Details - StayNest',
-            activePage: 'view-details',
-            user: req.session.user
+            user: req.session.user,
+            isFavorited: isFavorited
         });
-    }).catch(err => {
+    } catch (err) {
         console.log('Error fetching home details:', err);
-        res.redirect('/homes');
-    });
+        res.redirect('/');
+    }
 }

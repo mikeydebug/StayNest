@@ -19,8 +19,11 @@ const UserSchema = mongoose.Schema({
         enum: ['guest', 'host'],
         default: 'guest',
         required: true
-    }
-
+    },
+    favourites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Home'
+    }]
 });
 
 module.exports = mongoose.model('User', UserSchema);
