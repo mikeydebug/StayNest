@@ -23,7 +23,7 @@
                     </div>
                 <% } %>
                 
-                <form action="/host/add-home" method="POST" class="space-y-6">
+                <form action="/host/add-home" method="POST" enctype="multipart/form-data" class="space-y-6">
                     <!-- Property ID -->
                     <div>
                         <label for="id" class="block text-sm font-semibold text-gray-300 mb-2">
@@ -106,15 +106,16 @@
 
                     <!-- Image URL -->
                     <div>
-                        <label for="imageUrl" class="block text-sm font-semibold text-gray-300 mb-2">
-                            Image URL
+                        <label for="image"  class="block text-sm font-semibold text-gray-300 mb-2">
+                            Image
                         </label>
                         <input 
-                            type="url" 
-                            id="imageUrl" 
-                            name="imageUrl" 
+                            type="file" 
+                            id="image" 
+                            name="image" 
                             required
-                            placeholder="https://example.com/image.jpg"
+                            accept="image/*"
+
                             class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none placeholder-gray-500"
                         >
                     </div>

@@ -4,7 +4,7 @@
     "description": "Beautiful villa with modern amenities",
     "price": "3333",
     "location": "Raichur",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3xAi1-cdMlV5twEcDm68Htc8NQZ2k2XLn0A&s",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3xAi1-cdMlV5twEcDm68Htc8NQZ2k2XLn0A&s",
     "rating": "4",
     "id": "1735380000001"
   },
@@ -14,7 +14,7 @@
     "description": "Luxurious property in prime location",
     "price": "323",
     "location": "Raichur",
-    "imageUrl": "https://5.imimg.com/data5/SELLER/Default/2021/7/GD/KE/QS/133614180/vila-design-500x500.jpeg",
+    "image": "https://5.imimg.com/data5/SELLER/Default/2021/7/GD/KE/QS/133614180/vila-design-500x500.jpeg",
     "rating": "4.4"
   },
   {
@@ -22,7 +22,7 @@
     "description": "beautiful ",
     "price": "2312",
     "location": "RR",
-    "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/west-virginia-gray-cottage-64dd6bb056057.jpg?crop=0.943xw:0.817xh;0.0224xw,0.0932xh",
+    "image": "https://hips.hearstapps.com/hmg-prod/images/west-virginia-gray-cottage-64dd6bb056057.jpg?crop=0.943xw:0.817xh;0.0224xw,0.0932xh",
     "rating": "3.3",
     "id": "0"
   },
@@ -31,7 +31,7 @@
     "description": "Stunning beachfront property with panoramic ocean views and private beach access",
     "price": "5500",
     "location": "Goa",
-    "imageUrl": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
+    "image": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
     "rating": "4.9",
     "id": "1735380000003"
   },
@@ -40,7 +40,7 @@
     "description": "Cozy cabin nestled in the mountains with fireplace and hiking trails nearby",
     "price": "2800",
     "location": "Manali",
-    "imageUrl": "https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800",
+    "image": "https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=800",
     "rating": "4.7",
     "id": "1735380000004"
   },
@@ -49,7 +49,7 @@
     "description": "Modern penthouse with city skyline views, rooftop terrace, and premium furnishings",
     "price": "8900",
     "location": "Mumbai",
-    "imageUrl": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
+    "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
     "rating": "4.8",
     "id": "1735380000005"
   },
@@ -58,7 +58,7 @@
     "description": "Charming farmhouse surrounded by lush gardens and orchards, perfect for peaceful getaway",
     "price": "1950",
     "location": "Pune",
-    "imageUrl": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+    "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
     "rating": "4.5",
     "id": "1735380000006"
   },
@@ -67,7 +67,7 @@
     "description": "Traditional heritage property with intricate architecture and royal ambiance",
     "price": "4200",
     "location": "Jaipur",
-    "imageUrl": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
+    "image": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
     "rating": "4.6",
     "id": "1735380000007"
   },
@@ -76,7 +76,7 @@
     "description": "Serene cottage by the lake with boat access, fishing, and breathtaking sunsets",
     "price": "3100",
     "location": "Udaipur",
-    "imageUrl": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+    "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
     "rating": "4.7",
     "id": "1735380000008"
   },
@@ -85,7 +85,7 @@
     "description": "Stylish industrial loft in the heart of the city with exposed brick and modern amenities",
     "price": "3800",
     "location": "Bangalore",
-    "imageUrl": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
+    "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
     "rating": "4.4",
     "id": "1735380000009"
   },
@@ -94,7 +94,7 @@
     "description": "Exotic villa with tropical gardens, infinity pool, and open-air living spaces",
     "price": "6500",
     "location": "Kerala",
-    "imageUrl": "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800",
+    "image": "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800",
     "rating": "4.9",
     "id": "1735380000010"
   },
@@ -103,7 +103,7 @@
     "description": "Luxury desert resort with traditional architecture, spa facilities, and camel rides",
     "price": "5200",
     "location": "Jaisalmer",
-    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+    "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
     "rating": "4.6",
     "id": "1735380000011"
   },
@@ -112,7 +112,7 @@
     "description": "Sustainable eco-lodge in the forest with treehouse views and nature trails",
     "price": "2500",
     "location": "Coorg",
-    "imageUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800",
+    "image": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800",
     "rating": "4.8",
     "id": "1735380000012"
   }

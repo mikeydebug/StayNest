@@ -16,6 +16,8 @@ StoreRouter.get("/favorites", StoreController.getfavorites);
 StoreRouter.post("/favorites", StoreController.postAddfavorites);
 StoreRouter.post("/favorites/delete/:homeId", StoreController.postDeleteFavorite);
 StoreRouter.get("/bookings", StoreController.getbookings);
+StoreRouter.post("/bookings/create", StoreController.postCreateBooking);
+StoreRouter.post("/bookings/cancel/:bookingId", StoreController.postCancelBooking);
 //view home details
 StoreRouter.get("/homes/:id", StoreController.getViewDetails);
 

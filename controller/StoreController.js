@@ -1,6 +1,7 @@
 
 const Home = require("../models/home_model.js");
 const User = require("../models/user_auth.js");
+const Booking = require("../models/booking_model.js");
 
 
 
@@ -21,9 +22,85 @@ exports.getHomeDetails  = (req, res, next) => {
 
 
 //get bookings
-exports.getbookings = (req, res, next) => {
-    res.render("store/booking-list",{bookings: [], title: 'Bookings - StayNest', activePage: 'bookings', isLoggedIn: req.session.isLoggedIn, user: req.session.user});
-    
+exports.getbookings = async (req, res, next) => {
+    try {
+        const userid = req.session.user._id;
+        const bookings = await Booking.find({ userId: userid })
+            .populate('homeId')
+            .sort({ bookingDate: -1 });
+        
+        res.render("store/bookings", {
+            bookings: bookings,
+            title: 'Bookings - StayNest',
+            activePage: 'bookings',
+            isLoggedIn: req.session.isLoggedIn,
+            user: req.session.user
+        });
+    } catch (err) {
+        console.log('Error fetching bookings:', err);
+        res.render("store/bookings", {
+            bookings: [],
+            title: 'Bookings - StayNest',
+            activePage: 'bookings',
+            isLoggedIn: req.session.isLoggedIn,
+            user: req.session.user
+        });
+    }
+}
+
+// Create booking
+exports.postCreateBooking = async (req, res, next) => {
+    try {
+        const { homeId, checkIn, checkOut, guests } = req.body;
+        const userid = req.session.user._id;
+
+        // Find home by custom id field
+        const home = await Home.findOne({ id: homeId });
+        if (!home) {
+            return res.redirect('/homes');
+        }
+
+        // Calculate total price (number of nights * price per night)
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+        const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+        const totalPrice = nights * home.price;
+
+        // Create new booking
+        const newBooking = new Booking({
+            homeId: home._id,
+            userId: userid,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
+            guests: guests,
+            totalPrice: totalPrice
+        });
+
+        await newBooking.save();
+        res.redirect('/bookings');
+    } catch (err) {
+        console.log('Error creating booking:', err);
+        res.redirect('/homes');
+    }
+}
+
+// Cancel booking
+exports.postCancelBooking = async (req, res, next) => {
+    try {
+        const bookingId = req.params.bookingId;
+        const userid = req.session.user._id;
+
+        // Find and update booking status
+        await Booking.findOneAndUpdate(
+            { _id: bookingId, userId: userid },
+            { status: 'cancelled' }
+        );
+
+        res.redirect('/bookings');
+    } catch (err) {
+        console.log('Error cancelling booking:', err);
+        res.redirect('/bookings');
+    }
 }
 
 //get favorites

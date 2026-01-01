@@ -3,12 +3,12 @@
 // const { getDb } = require('../utils/database');
 
 // module.exports = class Home {
-//     constructor( title, description, price, location, imageUrl, rating,id) {
+//     constructor( title, description, price, location, image, rating,id) {
 //         this.title = title;
 //         this.description = description;
 //         this.price = price;
 //         this.location = location;
-//         this.imageUrl = imageUrl;
+//         this.image = image;
 //         this.rating = rating;
 //         this.id = id;
 //     }
@@ -68,7 +68,7 @@ const homeSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    imageUrl: {
+    image: {
         type: String,
         required: true
     },

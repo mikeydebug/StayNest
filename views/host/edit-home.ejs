@@ -12,7 +12,7 @@
                     <p class="text-gray-400">Update your property details</p>
                 </div>
                 
-                <form action="/host/edit-home/<%= homeId %>" method="POST" class="space-y-6">
+                <form action="/host/edit-home/<%= homeId %>" method="POST" enctype="multipart/form-data" class="space-y-6">
                     <!-- Property ID (Read-only) -->
                     <div>
                         <label for="id" class="block text-sm font-semibold text-gray-300 mb-2">
@@ -96,20 +96,26 @@
                         >
                     </div>
 
-                    <!-- Image URL -->
+                    <!-- Image Upload -->
                     <div>
-                        <label for="imageUrl" class="block text-sm font-semibold text-gray-300 mb-2">
-                            Image URL
+                        <label for="image" class="block text-sm font-semibold text-gray-300 mb-2">
+                            Update Image (Optional)
                         </label>
+                        <!-- Current Image Preview -->
+                        <% if (home.image) { %>
+                            <div class="mb-3">
+                                <p class="text-xs text-gray-500 mb-2">Current Image:</p>
+                                <img src="/<%= home.image %>" alt="Current home image" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-700">
+                            </div>
+                        <% } %>
                         <input 
-                            type="url" 
-                            id="imageUrl" 
-                            name="imageUrl" 
-                            value="<%= home.imageUrl %>"
-                            required
-                            placeholder="https://example.com/image.jpg"
-                            class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none placeholder-gray-500"
+                            type="file" 
+                            id="image" 
+                            name="image" 
+                            accept="image/*"
+                            class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all outline-none"
                         >
+                        <p class="text-xs text-gray-500 mt-1">Leave empty to keep current image</p>
                     </div>
 
                     <!-- Rating -->
