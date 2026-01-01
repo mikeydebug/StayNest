@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - StayNest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .glow-animation {
+            animation: glow 3s ease-in-out infinite;
+        }
+        .glass-effect {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center py-12 relative">
+    <!-- Animated Background Blobs -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 float-animation"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 float-animation" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 float-animation" style="animation-delay: 4s;"></div>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-gray-900 to-pink-900/30"></div>
+    
+    <div class="relative z-10 w-full max-w-xl px-6">
+        <!-- Logo/Brand -->
+        <div class="text-center mb-8 transform hover:scale-105 transition-transform duration-300">
+            <div class="inline-block p-4 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl mb-4 shadow-2xl">
+                <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+            </div>
+            <h1 class="text-5xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3">StayNest</h1>
+            <p class="text-gray-300 text-lg">Create your account to get started</p>
+        </div>
+
+        <!-- Signup Card -->
+        <div class="glass-effect rounded-3xl shadow-2xl p-8 border border-purple-500/20 backdrop-blur-xl">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Sign Up</h2>
+            
+            <!-- Error Messages -->
+            <% if (typeof errorMessages !== 'undefined' && errorMessages && errorMessages.length > 0) { %>
+            <div class="mb-6 bg-red-500/10 border border-red-500/50 rounded-xl p-4 backdrop-blur-sm">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div class="flex-1">
+                        <h3 class="text-red-400 font-semibold mb-2">Please fix the following errors:</h3>
+                        <ul class="space-y-1">
+                            <% errorMessages.forEach(function(error) { %>
+                            <li class="text-red-300 text-sm">• <%= error %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            
+            <form action="/signup" method="POST" class="space-y-4">
+                <!-- Name Field -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-2">
+                        Full Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required
+                        placeholder="John Doe"
+                        value="<%= typeof oldInput !== 'undefined' && oldInput.name ? oldInput.name : '' %>"
+                        class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 focus:bg-gray-800 transition-all duration-300 hover:border-purple-500/30"
+                    >
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+                        Email Address
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        placeholder="you@example.com"
+                        value="<%= typeof oldInput !== 'undefined' && oldInput.email ? oldInput.email : '' %>"
+                        class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 focus:bg-gray-800 transition-all duration-300 hover:border-purple-500/30"
+                    >
+                </div>
+
+                <!-- Account Type Dropdown -->
+                <div>
+                    <label for="accountType" class="block text-sm font-medium text-gray-300 mb-2">
+                        Register As
+                    </label>
+                    <select 
+                        id="accountType" 
+                        name="accountType" 
+                        required
+                        class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 focus:bg-gray-800 transition-all duration-300 hover:border-purple-500/30"
+                    >
+                        <option value="" disabled selected class="text-gray-400">Select account type</option>
+                        <option value="guest" class="text-white">Guest - Book amazing stays</option>
+                        <option value="host" class="text-white">Host - List your property</option>
+                    </select>
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-2">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required
+                        placeholder="At least 8 characters"
+                        minlength="8"
+                        class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 focus:bg-gray-800 transition-all duration-300 hover:border-purple-500/30"
+                    >
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-2">
+                        Confirm Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        required
+                        placeholder="Re-enter your password"
+                        minlength="8"
+                        class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 focus:bg-gray-800 transition-all duration-300 hover:border-purple-500/30"
+                    >
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="flex items-start">
+                    <input 
+                        type="checkbox" 
+                        name="terms" 
+                        id="terms"
+                        required
+                        class="w-4 h-4 mt-1 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
+                    >
+                    <label for="terms" class="ml-2 text-sm text-gray-300">
+                        I agree to the <a href="/terms" class="text-purple-400 hover:text-purple-300">Terms of Service</a> and <a href="/privacy" class="text-purple-400 hover:text-purple-300">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+                >
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Create Account
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-gray-800 text-gray-400">Or sign up with</span>
+                </div>
+            </div>
+
+            <!-- Social Signup Buttons -->
+            <div class="grid grid-cols-2 gap-4">
+                <button class="flex items-center justify-center px-4 py-3 bg-gray-800/50 hover:bg-gray-700/70 border border-gray-600/50 hover:border-purple-500/50 text-white rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    </svg>
+                    Google
+                </button>
+                <button class="flex items-center justify-center px-4 py-3 bg-gray-800/50 hover:bg-gray-700/70 border border-gray-600/50 hover:border-pink-500/50 text-white rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </button>
+            </div>
+
+            <!-- Login Link -->
+            <p class="mt-6 text-center text-sm text-gray-400">
+                Already have an account? 
+                <a href="/login" class="text-purple-400 hover:text-purple-300 font-semibold transition duration-200">
+                    Login
+                </a>
+            </p>
+        </div>
+
+        <!-- Additional Info -->
+        <p class="mt-6 text-center text-xs text-gray-500">
+            By creating an account, you agree to StayNest's Terms of Service and Privacy Policy
+        </p>
+    </div>
+</body>
+</html>

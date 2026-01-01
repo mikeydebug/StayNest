@@ -43,13 +43,16 @@ app.use(session({
     ,store: store
 }));
 
-
-
-
-
-
-
-
+// Middleware to make session data available in all views
+app.use((req, res, next) => {
+    res.locals.isLoggedIn = req.session.isLoggedIn || false;
+    res.locals.user = req.session.user || null;
+    console.log('Session Data:', {
+        isLoggedIn: res.locals.isLoggedIn,
+        user: res.locals.user ? { email: res.locals.user.email, accountType: res.locals.user.accountType } : null
+    });
+    next();
+});
 
 // Routes
 app.use(authRouter);

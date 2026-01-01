@@ -10,7 +10,9 @@ exports.getHomeDetails  = (req, res, next) => {
         res.render("store/home-list",{registeredHomes: registeredHomes, 
             title: 'HomeList - StayNest', 
             isLoggedIn: req.session.isLoggedIn,
-            activePage: 'home'});
+            activePage: 'home',
+            user: req.session.user
+        });
     }).catch(err => {
         console.log('Error fetching homes:', err);
     });
@@ -19,7 +21,7 @@ exports.getHomeDetails  = (req, res, next) => {
 
 //get bookings
 exports.getbookings = (req, res, next) => {
-    res.render("store/booking-list",{bookings: [], title: 'Bookings - StayNest', activePage: 'bookings', isLoggedIn: req.session.isLoggedIn});
+    res.render("store/booking-list",{bookings: [], title: 'Bookings - StayNest', activePage: 'bookings', isLoggedIn: req.session.isLoggedIn, user: req.session.user});
     
 }
 
@@ -33,13 +35,17 @@ exports.getfavorites = (req, res, next) => {
         res.render("store/favorite-list",{favorites: favoriteHomes, 
             title: 'My Favorites - StayNest', 
             isLoggedIn: req.session.isLoggedIn,
-            activePage: 'favorites'});
+            activePage: 'favorites',
+            user: req.session.user
+        });
     }).catch(err => {
         console.log('Error fetching favorites:', err);
         res.render("store/favorite-list",{favorites: [], 
             title: 'My Favorites - StayNest', 
             isLoggedIn: req.session.isLoggedIn,
-            activePage: 'favorites'});
+            activePage: 'favorites',
+            user: req.session.user
+        });
     }); 
 }
 
@@ -89,7 +95,9 @@ exports.getIndex = (req, res, next) => {
         res.render("store/index",{registeredHomes: registeredHomes, 
             title: 'StayNest', 
             isLoggedIn: req.session.isLoggedIn,
-            activePage: 'index'});
+            activePage: 'index',
+            user: req.session.user
+        });
     }).catch(err => {
         console.log('Error fetching homes:', err);
     });
@@ -113,7 +121,8 @@ exports.getViewDetails = (req, res, next) => {
             isFavorited: isFavorited,
             isLoggedIn: req.session.isLoggedIn,
             title: 'View Details - StayNest',
-            activePage: 'view-details'
+            activePage: 'view-details',
+            user: req.session.user
         });
     }).catch(err => {
         console.log('Error fetching home details:', err);
