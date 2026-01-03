@@ -82,12 +82,15 @@ app.use(ErrorController.get404);
 
 
 
-mongoose.connect(dbUrl).then(() => {
+mongoose.connect(dbUrl, {
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+}).then(() => {
     console.log('Connected to MongoDB using Mongoose');
     app.listen(port, () => {
         console.log(`StayNest app listening at http://localhost:${port}`);
     });
-
 }).catch(err => {
-    console.log('Error connecting to MongoDB:', err);
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1);
 });
