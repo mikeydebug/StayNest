@@ -5,7 +5,7 @@ const hostRouter = require('./routes/hostrouter');
 const StoreRouter = require('./routes/StoreRouter');
 const rootDir = require('./utils/pathutil');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const ErrorController = require('./controller/errors');
 
 const session = require('express-session');
@@ -14,7 +14,7 @@ const authRouter = require('./routes/authrouter');
 const mongodbSession = require('connect-mongodb-session')(session);
 
 
-const dbUrl = 'mongodb+srv://MayankSoni:mayankpass@staynest.8fo9pex.mongodb.net/StayNest?appName=StayNest';
+const dbUrl = process.env.MONGODB_URI || 'mongodb+srv://MayankSoni:mayankpass@staynest.8fo9pex.mongodb.net/StayNest?appName=StayNest';
 
 
 app.use((req, res, next) => {
@@ -41,10 +41,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware for session management
 app.use(session({
-    secret: 'mysec',
+    secret: process.env.SESSION_SECRET || 'mysec',
     resave: false,
-    saveUninitialized: true
-    ,store: store
+    saveUninitialized: true,
+    store: store
 }));
 
 // Middleware to make session data available in all views

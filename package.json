@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind": "tailwindcss -i ./public/home.css -o ./public/output.css --watch",
-    "start": "nodemon app.js & npm run tailwind"
+    "build": "tailwindcss -i ./public/home.css -o ./public/output.css",
+    "start": "node app.js",
+    "dev": "nodemon app.js & npm run tailwind"
   },
   "author": "Mayank Soni",
   "license": "ISC",
