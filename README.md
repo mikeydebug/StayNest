@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![StayNest Logo](https://img.shields.io/badge/StayNest-Premium%20Rentals-purple?style=for-the-badge&logo=airbnb)
+![StayNest Logo](https://img.shields.io/badge/StayNest-Premium%20Rentals-purple?style=for-the-badge&logo=home)
 
 **Your Perfect Home Away From Home**
 
