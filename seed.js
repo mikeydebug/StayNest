@@ -57,7 +57,7 @@ const seedDatabase = async () => {
                 description: 'Spacious and modern loft right in the heart of Manhattan. Walking distance to Central Park and Times Square.',
                 price: 350,
                 location: 'New York, USA',
-                image: 'https://images.unsplash.com/photo-1502672260266-1c1e52d15461?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 rating: 4.8,
                 id: Math.random().toString(36).substr(2, 9)
             },
