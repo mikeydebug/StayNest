@@ -39,7 +39,7 @@
                         <div class="md:flex">
                             <!-- Image -->
                             <div class="md:w-64 md:flex-shrink-0">
-                                <img src="/<%= booking.homeId.image %>" alt="<%= booking.homeId.title %>" class="h-full w-full object-cover md:h-64">
+                                <img src="<%= booking.homeId.image.startsWith('http') ? booking.homeId.image : '/' + booking.homeId.image %>" alt="<%= booking.homeId.title %>" class="h-full w-full object-cover md:h-64">
                             </div>
                             
                             <!-- Content -->

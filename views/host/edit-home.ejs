@@ -105,7 +105,7 @@
                         <% if (home.image) { %>
                             <div class="mb-3">
                                 <p class="text-xs text-gray-500 mb-2">Current Image:</p>
-                                <img src="/<%= home.image %>" alt="Current home image" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-700">
+                                <img src="<%= home.image.startsWith('http') ? home.image : '/' + home.image %>" alt="Current home image" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-700">
                             </div>
                         <% } %>
                         <input 
