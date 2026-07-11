@@ -51,6 +51,26 @@
         <!-- Login Card -->
         <div class="glass-effect rounded-3xl shadow-2xl p-8 border border-purple-500/20 backdrop-blur-xl">
             <h2 class="text-2xl font-bold text-white mb-6 text-center">Login</h2>
+
+            <!-- Demo Credentials Box -->
+            <div class="mb-6 p-4 rounded-xl bg-purple-900/30 border border-purple-500/30 backdrop-blur-sm">
+                <h3 class="text-purple-300 font-semibold mb-3 text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Demo Credentials (For Testing)
+                </h3>
+                <div class="grid grid-cols-2 gap-4 text-xs text-gray-300">
+                    <div class="bg-gray-900/50 p-2 rounded-lg border border-gray-700/50">
+                        <span class="block text-pink-400 font-medium mb-1">Host Account</span>
+                        Email: <span class="text-white font-mono select-all">host@staynest.com</span><br>
+                        Pass: <span class="text-white font-mono">password123</span>
+                    </div>
+                    <div class="bg-gray-900/50 p-2 rounded-lg border border-gray-700/50">
+                        <span class="block text-indigo-400 font-medium mb-1">Guest Account</span>
+                        Email: <span class="text-white font-mono select-all">guest@staynest.com</span><br>
+                        Pass: <span class="text-white font-mono">password123</span>
+                    </div>
+                </div>
+            </div>
             
             <!-- Error Messages -->
             <% if (typeof errorMessages !== 'undefined' && errorMessages && errorMessages.length > 0) { %>
